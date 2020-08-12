@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    environment:
+     - HOST_IP=${HOST_IP}
+     - GF_INSTALL_PLUGINS=jdbranham-diagram-panel
+     - GF_PLUGIN_DIR=~/testing_volumes/grafana/plugins
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/ 
+      - ./grafana/config.ini:/etc/grafana/grafana.ini
+
+  timescale:
+    image: timescale/timescaledb
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=membrane_timescaledb_reporter
+  
+  diagram_extractor:
+    image: qizot/membrane_diagram_extractor
+    ports:
+      - 8080:8080
+    environment:
+      - DB_NAME=membrane_timescaledb_reporter
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=timescale
+      - DB_PORT=5432
