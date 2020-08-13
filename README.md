@@ -11,7 +11,7 @@ This repository provides introduction to integrating `membrane_timescaledb_repor
 Due to some network problems when using Grafana with datasource from same docker's network one must provide `HOST_IP=<your machine ip>` to enable Grafana to connect with TimescaleDB.
 
 ```bash
-# To run setup
+# example to run given setup.
 HOST_IP=192.168.38.64 docker-compose up
 ```
 
@@ -24,20 +24,24 @@ Default credentials for a fresh Grafana instance are, both for username and pass
 ## Grafana Dashboard
 
 Grafana's dashboard is a basic building block that will contain all your panels necessary for monitoring your pipeline.
-You have to start by creating one and then adding new pannels that will be used for displaying graphs and maybe some kind of diagrams.
+You have to start by creating one and then adding new pannels that will be used for displaying graphs and and other types of visualization e.g. diagrams.
 
 Grafana's power comes from an ability to easily share a dashboard layout between users. Dashboard can be imported to Grafana with a simple *.json* file.
 We provide a simple dashboard consisting of 3 panels:
- - 2 graphs plotting `Membrane.InputBuffer`'s internal buffer size inside of functions `take_and_demand/4` and `store/3`
- - pipeline diagram
-Provided `docker-compose` grafana setup is already equiped with mentioned dashboard.
+ - 2 separate graph panels plotting `Membrane.InputBuffer`'s internal buffer size inside of functions `take_and_demand/4` and `store/3`
+ - pipeline diagram using Grafana's `Diagram` plugin
+Provided `docker-compose`'s grafana setup is already equiped with mentioned dashboard.
 
-To import custom dashboard navigate to Grafana's page and then to `Create > Import > Upload JSON file`, select mentioned file and click *Import*.
+To import custom dashboard navigate to Grafana's page and then to `Create > Import > Upload JSON file`, select your dashboard's file and click *Import*.
+
+**Important**
+Provided dashboard is available via Grafana's provisioning. It is set up to allow ui updates but remember that all your changes will be lost after `docker-compose` rebuild.
+You might consider saving your modified dashboard somewhere in **.json** format and import it when needed or, if you find it useful, commit it to this repository under `grafana/provisioning/dashoards/` directory.
 
 ## Grafana's Data Source
 A data source is used by Grafana to fetch necessary data requested by panels inside your dashboard.
 
-Provided `docker-compose` setup comes with `TimescaleDB` instance which is declared inside Grafana instance.
+Provided `docker-compose` setup comes with `TimescaleDB` instance which is added as default PostgreSQL source inside Grafana instance.
 
 
 ### Manual data source setup
@@ -47,7 +51,8 @@ You might need either to set current data source as default (at the very top of 
 
 ## Creating new visualizations
 You might want to create new panels that will visualize other aspects of your pipeline. To do this, you will need to provide them with previously created data source and create
-proper SQL queries that will fetch necessary data. You can inspect example's panels to see how to write such queries (they are very basic). You might also consider visiting TimescaleDB's and Grafana's documentations.
+proper SQL queries (provided that you still use data saved by `membrane_timescale_reporter`) that will fetch necessary data. 
+You can inspect example's panels to see how to write such queries (they are very basic). You might also consider visiting TimescaleDB's and Grafana's documentations.
 
 [TimescaleDB documentation](https://docs.timescale.com/latest/tutorials/tutorial-grafana-dashboards)
 
