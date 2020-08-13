@@ -63,6 +63,16 @@ You can inspect example's panels to see how to write such queries (they are very
  - Dashboard will not be fully funcitoning until first usage of `membrane_timescaledb_reporter` as fresh TimescaleDB instance does not have migrated tables.
 
 
+## Copyright and License
+
+Copyright 2020, [Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=membrane_telemetry_grafana)
+
+[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=membrane-github)](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=membrane_telemetry_grafana)
+
+Licensed under the [Apache License, Version 2.0](LICENSE)
+
+
+
 
 
 
