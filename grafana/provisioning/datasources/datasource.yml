@@ -3,7 +3,7 @@ apiVersion: 1
 datasources:
 - name: membrane_timescaledb_source
   type: postgres
-  url: $HOST_IP 
+  url: timescale 
   database: membrane_timescaledb_reporter
   user: postgres
   secureJsonData:

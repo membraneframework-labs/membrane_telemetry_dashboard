@@ -4,7 +4,6 @@ services:
     image: grafana/grafana
     container_name: grafana
     environment:
-     - HOST_IP=${HOST_IP}
      - GF_INSTALL_PLUGINS=jdbranham-diagram-panel
      - GF_PLUGIN_DIR=~/testing_volumes/grafana/plugins
     ports:
@@ -14,7 +13,7 @@ services:
       - ./grafana/config.ini:/etc/grafana/grafana.ini
 
   timescale:
-    image: timescale/timescaledb
+    image: timescale/timescaledb:latest-pg12
     ports:
       - 5432:5432
     environment:

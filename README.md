@@ -2,17 +2,20 @@
 
 This repository provides introduction to integrating `membrane_timescaledb_reporter` and `membrane_pipeline_diagram_extractor` repositories with Grafana to create dashboards for monitoring your pipeline behaviour.
 
-**Both repositories rely on schema created by** `membrane_timescaledb_reporter`.
+**Both repositories rely on schema created by** `membrane_timescaledb_reporter`. 
+
+To explore database config and migrations pleases refer to [membrane_timescaledb_repoter](https://github.com/membraneframework/membrane_timescaledb_reporter) repository.
+
+Please note that this setup by default uses `membrane_timescaledb_reporter` database name and other predefined variables like **username** and **password** which are default to reporter's default config. 
+If you have to change it while using **reporter** package make sure you update `docker-compose.yml` file as well.
 
 
+## Note
 `docker-compose.yml` contains fully functioning setup for local monitoring.
 
 ## Run
-Due to some network problems when using Grafana with datasource from same docker's network one must provide `HOST_IP=<your machine ip>` to enable Grafana to connect with TimescaleDB.
-
 ```bash
-# example to run given setup.
-HOST_IP=192.168.38.64 docker-compose up
+docker-compose up
 ```
 
 To access dashboard go to http://localhost:3000.
