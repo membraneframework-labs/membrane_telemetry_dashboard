@@ -22,7 +22,7 @@ services:
       - POSTGRES_DB=membrane_timescaledb_reporter
   
   diagram_extractor:
-    image: qizot/membrane_diagram_extractor
+    image: membrane/membrane_diagram_extractor
     ports:
       - 8080:8080
     environment:
