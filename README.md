@@ -1,10 +1,10 @@
-# Membrane Telemetry Grafana
+# Membrane Telemetry Dashboard
 
-This repository provides introduction to integrating `membrane_timescaledb_reporter` and `membrane_pipeline_diagram_extractor` repositories with Grafana to create dashboards for monitoring your pipeline behaviour.
+This repository provides introduction to integrating `membrane_timescaledb_reporter` repository with `membrane_dashboard` to monitor your pipeline behaviour.
 
 **Both repositories rely on schema created by** `membrane_timescaledb_reporter`. 
 
-To explore database config and migrations pleases refer to [membrane_timescaledb_repoter](https://github.com/membraneframework/membrane_timescaledb_reporter) repository.
+To explore database config and migrations pleases refer to [membrane_timescaledb_reporter](https://github.com/membraneframework/membrane_timescaledb_reporter) repository.
 
 Please note that this setup by default uses `membrane_timescaledb_reporter` database name and other predefined variables like **username** and **password** which are default to reporter's default config. 
 If you have to change it while using **reporter** package make sure you update `docker-compose.yml` file as well.
@@ -18,53 +18,40 @@ If you have to change it while using **reporter** package make sure you update `
 docker-compose up
 ```
 
-To access dashboard go to http://localhost:3000.
+To access dashboard go to http://localhost:4000.
 
-# Grafana Introduction
-Grafana is a web browser tool that you will be able to access after running e.g. with help of docker.
-Default credentials for a fresh Grafana instance are, both for username and passowrd: `admin`.
+# Dashboard Overview
+**Membrane Dashboard** is a web browser application that you will be able to access e.g. by running with help of docker.
+It consists of:
+  - time series charts 
+  - graphs visualizing pipelines
 
-## Grafana Dashboard
+You can specify time range of displayed data and accuracy of the charts.
+Charts and graphs can be updated automatically every 5 seconds. This option is enabled by default. 
+It can be disabled by clicking **Search** button and be enabled back with clicking **Last 5 min** or **Last 10 min** buttons. 
 
-Grafana's dashboard is a basic building block that will contain all your panels necessary for monitoring your pipeline.
-You have to start by creating one and then adding new pannels that will be used for displaying graphs and and other types of visualization e.g. diagrams.
+## Charts
+Dashboard displays one chart for every `Membrane.Core.InputBuffer` inside function that reports current buffer's size.
 
-Grafana's power comes from an ability to easily share a dashboard layout between users. Dashboard can be imported to Grafana with a simple *.json* file.
-We provide a simple dashboard consisting of 3 panels:
- - 2 separate graph panels plotting `Membrane.InputBuffer`'s internal buffer size inside of functions `take_and_demand/4` and `store/3`
- - pipeline diagram using Grafana's `Diagram` plugin
-Provided `docker-compose`'s grafana setup is already equiped with mentioned dashboard.
+You can zoom in by selecting time period on the chart. 
+Be aware that automatic update will zoom out the chart, so it is convenient to disable real-time update when analyzing data.
+Click twice on the chart to zoom out.
 
-To import custom dashboard navigate to Grafana's page and then to `Create > Import > Upload JSON file`, select your dashboard's file and click *Import*.
+## Graphs
+Dashboard shows also directed graphs visualizing pipelines' elements and links between them.
 
-**Important**
-Provided dashboard is available via Grafana's provisioning. It is set up to allow ui updates but remember that all your changes will be lost after `docker-compose` rebuild.
-You might consider saving your modified dashboard somewhere in **.json** format and import it when needed or, if you find it useful, commit it to this repository under `grafana/provisioning/dashoards/` directory.
+You can centre specific pipeline by clicking on its name in **Pipelines** list.
 
-## Grafana's Data Source
-A data source is used by Grafana to fetch necessary data requested by panels inside your dashboard.
+It is also possible to zoom and drag elements using mouse.
 
-Provided `docker-compose` setup comes with `TimescaleDB` instance which is added as default PostgreSQL source inside Grafana instance.
-
-
-### Manual data source setup
-Follow `Configuration > Data Sources > Add data source` and search for `PostgreSQL` and click *Select*.
-Then you will need to provide connection information and enable `TimescaleDB` option in `PostgreSQL details` section.
-You might need either to set current data source as default (at the very top of settings, right to the name) or change data source location inside of given dashboard's panels as those panels use a default one. 
-
-## Creating new visualizations
-You might want to create new panels that will visualize other aspects of your pipeline. To do this, you will need to provide them with previously created data source and create
-proper SQL queries (provided that you still use data saved by `membrane_timescale_reporter`) that will fetch necessary data. 
-You can inspect example's panels to see how to write such queries (they are very basic). You might also consider visiting TimescaleDB's and Grafana's documentations.
-
-[TimescaleDB documentation](https://docs.timescale.com/latest/tutorials/tutorial-grafana-dashboards)
-
-[Grafana documentation](https://grafana.com/docs/grafana/latest/panels/queries)
+## Data Sources
+Provided `docker-compose.yml` file sets up **Membrane Dashboard** and database (TimescaleDB). 
+To fetch some data, use any Membrane application integrated with `membrane_timescaledb_reporter`.
+Be aware that you have to specify the same database configuration in both Membrane application and `docker-compose.yml`.
 
 ## Warnings
- - Be careful when querying large time ranges as some metrics might be reported thousands times per second and querying for example last 6h at once might crash your database instance or Grafana's dashboard.
- - Dashboard will not be fully funcitoning until first usage of `membrane_timescaledb_reporter` as fresh TimescaleDB instance does not have migrated tables.
-
+ - Be careful when querying large time ranges with high accuracy as some metrics might be reported hundreds times per second and querying for example last 6h at once might crash your database instance or **Membrane Dashboard**.
+ - After any change in number of different metrics stored in the database (e.g. running `membrane_timescaledb_reporter` for the first time) reload the page to get charts for all metrics.
 
 ## Copyright and License
 

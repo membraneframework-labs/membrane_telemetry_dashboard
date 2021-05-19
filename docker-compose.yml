@@ -1,33 +1,22 @@
 version: '3.7'
 services:
-  grafana:
-    image: grafana/grafana
-    container_name: grafana
-    environment:
-     - GF_INSTALL_PLUGINS=jdbranham-diagram-panel
-     - GF_PLUGIN_DIR=~/testing_volumes/grafana/plugins
-    ports:
-      - 3000:3000
-    volumes:
-      - ./grafana/provisioning/:/etc/grafana/provisioning/ 
-      - ./grafana/config.ini:/etc/grafana/grafana.ini
-
   timescale:
-    image: timescale/timescaledb:latest-pg12
+    image: timescale/timescaledb:1.7.4-pg12
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=membrane_timescaledb_reporter
+    command: ["-c", "max_connections=100"]
   
-  diagram_extractor:
-    image: membrane/membrane_diagram_extractor
+  dashboard:
+    image: membraneframeworklabs/membrane_dashboard
     ports:
-      - 8080:8080
+      - 4000:4000
     environment:
-      - DB_NAME=membrane_timescaledb_reporter
       - DB_USER=postgres
-      - DB_PASSWORD=postgres
+      - DB_PASS=postgres
+      - DB_NAME=membrane_timescaledb_reporter
       - DB_HOST=timescale
-      - DB_PORT=5432
+      - HOST=localhost
