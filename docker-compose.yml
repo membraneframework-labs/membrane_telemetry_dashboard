@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  timescale:
+    image: timescale/timescaledb:1.7.4-pg12
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=membrane_timescaledb_reporter
+    command: ["-c", "max_connections=100"]
+  
+  dashboard:
+    image: membraneframeworklabs/membrane_dashboard
+    ports:
+      - 4000:4000
+    environment:
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - DB_NAME=membrane_timescaledb_reporter
+      - DB_HOST=timescale
+      - HOST=localhost
