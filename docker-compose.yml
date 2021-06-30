@@ -13,7 +13,7 @@ services:
   dashboard:
     image: membraneframeworklabs/membrane_dashboard
     ports:
-      - 4000:4000
+      - 8000:8000
     environment:
       - DB_USER=postgres
       - DB_PASS=postgres
