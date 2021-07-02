@@ -18,7 +18,7 @@ If you have to change it while using **reporter** package make sure you update `
 docker-compose up
 ```
 
-To access dashboard go to http://localhost:4000.
+To access dashboard go to http://localhost:8000.
 
 # Dashboard Overview
 **Membrane Dashboard** is a web browser application that you will be able to access e.g. by running with help of docker.
