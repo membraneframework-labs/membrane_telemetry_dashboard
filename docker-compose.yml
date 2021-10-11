@@ -4,6 +4,8 @@ services:
     image: timescale/timescaledb:1.7.4-pg12
     ports:
       - 5432:5432
+    expose:
+      - "5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -14,6 +16,8 @@ services:
     image: membraneframeworklabs/membrane_dashboard
     ports:
       - 8000:8000
+    expose:
+      - "8000"
     environment:
       - DB_USER=postgres
       - DB_PASS=postgres
