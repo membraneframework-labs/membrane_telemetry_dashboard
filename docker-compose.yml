@@ -4,16 +4,20 @@ services:
     image: timescale/timescaledb:1.7.4-pg12
     ports:
       - 5432:5432
+    expose:
+      - "5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=membrane_timescaledb_reporter
     command: ["-c", "max_connections=100"]
-  
+
   dashboard:
-    image: membraneframeworklabs/membrane_dashboard
+    image: membraneframeworklabs/membrane_dashboard:v0.3.0
     ports:
       - 8000:8000
+    expose:
+      - "8000"
     environment:
       - DB_USER=postgres
       - DB_PASS=postgres
