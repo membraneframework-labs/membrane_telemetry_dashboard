@@ -11,9 +11,9 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=membrane_timescaledb_reporter
     command: ["-c", "max_connections=100"]
-  
+
   dashboard:
-    image: membraneframeworklabs/membrane_dashboard
+    image: membraneframeworklabs/membrane_dashboard:v0.3.0
     ports:
       - 8000:8000
     expose:
